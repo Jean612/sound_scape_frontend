@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server'
 const protectedRoutes = ['/dashboard', '/playlists', '/search']
 
 // Rutas que solo usuarios no autenticados pueden acceder
-const authOnlyRoutes = ['/login', '/register']
+const authOnlyRoutes = ['/login', '/register', '/verify-otp']
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('auth_token')?.value

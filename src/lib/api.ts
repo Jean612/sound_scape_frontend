@@ -132,6 +132,21 @@ export const authService = {
     return response.data
   },
 
+  async verifyOtp(email: string, otpCode: string) {
+    const response = await apiClient.post('/auth/verify_otp', {
+      email,
+      otp_code: otpCode,
+    })
+    return response.data
+  },
+
+  async resendOtp(email: string) {
+    const response = await apiClient.post('/auth/resend_otp', {
+      email,
+    })
+    return response.data
+  },
+
   async resendConfirmation(email: string) {
     const response = await apiClient.post('/auth/resend_confirmation', {
       email,

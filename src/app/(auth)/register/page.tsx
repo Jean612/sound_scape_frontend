@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useState } from 'react'
-import { UserPlus, Loader2, AlertCircle, CheckCircle, Mail } from 'lucide-react'
+import { UserPlus, Loader2, AlertCircle } from 'lucide-react'
 import { FormInput } from '@/components/forms/FormInput'
 import { FormSelect } from '@/components/forms/FormSelect'
 import { useForm } from '@/hooks/useForm'
@@ -110,7 +110,6 @@ const validateRegister = (values: RegisterForm) => {
 export default function RegisterPage() {
   const router = useRouter()
   const [submitError, setSubmitError] = useState('')
-  const [isSuccess, setIsSuccess] = useState(false)
 
   const {
     values,
@@ -144,7 +143,8 @@ export default function RegisterPage() {
         }
 
         await authService.register(userData)
-        setIsSuccess(true)
+        // Redirigir a verificación OTP
+        router.push(`/verify-otp?email=${encodeURIComponent(values.email)}`)
       } catch (error: any) {
         if (error.response?.data?.errors) {
           // Errores de validación del servidor
@@ -163,50 +163,6 @@ export default function RegisterPage() {
     },
   })
 
-  if (isSuccess) {
-    return (
-      <div className="text-center animate-fade-in">
-        <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-8 h-8 text-primary-600" />
-        </div>
-        
-        <h1 className="text-2xl font-bold text-slate-900 mb-4">
-          ¡Registro Exitoso!
-        </h1>
-        
-        <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-6">
-          <div className="flex items-start gap-3">
-            <Mail className="w-5 h-5 text-primary-600 mt-0.5" />
-            <div className="text-left">
-              <p className="text-primary-700 font-medium">
-                Revisa tu email
-              </p>
-              <p className="text-primary-600 text-sm">
-                Hemos enviado un enlace de confirmación a{' '}
-                <span className="font-medium">{values.email}</span>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <p className="text-slate-600 mb-6">
-          Por favor, haz clic en el enlace del email para activar tu cuenta.
-        </p>
-
-        <div className="space-y-3">
-          <Link href="/login" className="btn-primary w-full inline-block text-center">
-            Ir al Login
-          </Link>
-          <Link 
-            href="/"
-            className="block text-sm text-slate-500 hover:text-slate-700 transition-colors"
-          >
-            ← Volver al inicio
-          </Link>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="animate-fade-in">
