@@ -2,11 +2,11 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { CheckCircle, Mail, RefreshCw, AlertCircle, Clock } from 'lucide-react'
 import { authService } from '@/lib/api'
 
-export default function VerifyOtpPage() {
+function VerifyOtpPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const email = searchParams.get('email')
@@ -243,5 +243,20 @@ export default function VerifyOtpPage() {
         </Link>
       </div>
     </div>
+  )
+}
+
+export default function VerifyOtpPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Cargando...</p>
+        </div>
+      </div>
+    }>
+      <VerifyOtpPageContent />
+    </Suspense>
   )
 }

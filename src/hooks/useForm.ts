@@ -65,7 +65,7 @@ export function useForm<T extends Record<string, unknown>>({
         ? (e.target as HTMLInputElement).checked 
         : value
       
-      setValue(name as keyof T, finalValue)
+      setValue(name as keyof T, finalValue as T[keyof T])
     },
     [setValue]
   )
