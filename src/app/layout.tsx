@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
@@ -13,7 +13,11 @@ export const metadata: Metadata = {
   description: "Descubre, organiza y disfruta tu música con la ayuda de inteligencia artificial. Crea playlists personalizadas y explora nuevos sonidos.",
   keywords: ["música", "playlist", "inteligencia artificial", "streaming", "canciones"],
   authors: [{ name: "SoundScape Team" }],
-  viewport: "width=device-width, initial-scale=1",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
   themeColor: "#22c55e",
 };
 
