@@ -61,6 +61,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const token = localStorage.getItem('auth_token')
       const user = authService.getCurrentUser()
       
+      // Si hay token pero no cookie, establecer cookie
+      if (token && user && !document.cookie.includes('auth_token=')) {
+        document.cookie = `auth_token=${token}; path=/; max-age=${7 * 24 * 60 * 60}` // 7 días
+      }
+      
       set({
         user,
         isAuthenticated: !!token && !!user,
@@ -71,6 +76,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         user: null,
         isAuthenticated: false,
       })
+      // Limpiar cookie también
+      if (typeof document !== 'undefined') {
+        document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
+      }
     }
   },
 }))

@@ -113,6 +113,9 @@ export const authService = {
     if (response.data.token) {
       localStorage.setItem('auth_token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
+      
+      // Establecer cookie para el middleware
+      document.cookie = `auth_token=${response.data.token}; path=/; max-age=${7 * 24 * 60 * 60}` // 7 días
     }
     
     return response.data
@@ -157,6 +160,9 @@ export const authService = {
   logout() {
     localStorage.removeItem('auth_token')
     localStorage.removeItem('user')
+    
+    // Limpiar cookie
+    document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
   },
 
   getCurrentUser(): User | null {

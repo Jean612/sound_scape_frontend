@@ -6,21 +6,22 @@ import { useAuthStore } from '@/lib/stores/auth'
 import { Music, Sparkles, Users, Zap, Play, ArrowRight, Star } from 'lucide-react'
 
 export default function Home() {
-  const { isAuthenticated, user } = useAuthStore()
+  const { isAuthenticated, user, isLoading } = useAuthStore()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) {
+  // Mostrar loading hasta que el componente esté montado y la auth esté cargada
+  if (!mounted || isLoading) {
     return <div className="flex items-center justify-center min-h-screen">
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
     </div>
   }
 
   if (isAuthenticated && user) {
-    // Redirigir al dashboard
+    // Redirigir al dashboard usando window.location para forzar recarga
     if (typeof window !== 'undefined') {
       window.location.href = '/dashboard'
       return <div className="flex items-center justify-center min-h-screen">

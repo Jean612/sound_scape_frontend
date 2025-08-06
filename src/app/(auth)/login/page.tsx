@@ -52,7 +52,10 @@ export default function LoginPage() {
       try {
         setSubmitError('')
         await login(values.email, values.password)
-        router.push('/dashboard')
+        // Dar tiempo para que el estado se actualice
+        setTimeout(() => {
+          window.location.href = '/dashboard'
+        }, 100)
       } catch (error) {
         if (error instanceof Error) {
           setSubmitError(error.message || 'Error al iniciar sesión')
