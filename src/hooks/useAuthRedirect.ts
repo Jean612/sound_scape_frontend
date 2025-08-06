@@ -9,13 +9,25 @@ export function useAuthRedirect() {
   const { isAuthenticated, user, isLoading } = useAuthStore()
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated && user) {
-      // Pequeño delay para asegurar que el DOM esté listo
-      const timer = setTimeout(() => {
-        window.location.href = '/dashboard'
-      }, 100)
-      
-      return () => clearTimeout(timer)
+    if (!isLoading) {
+      if (isAuthenticated && user) {
+        // Usuario autenticado - redirigir a dashboard
+        const timer = setTimeout(() => {
+          window.location.href = '/dashboard'
+        }, 100)
+        
+        return () => clearTimeout(timer)
+      } else if (!isAuthenticated && !user) {
+        // Usuario no autenticado - asegurarse de que esté en página correcta
+        const currentPath = window.location.pathname
+        const isAuthPage = currentPath.startsWith('/login') || 
+                          currentPath.startsWith('/register') || 
+                          currentPath.startsWith('/verify-otp')
+        
+        if (!isAuthPage && currentPath !== '/') {
+          window.location.href = '/'
+        }
+      }
     }
   }, [isAuthenticated, user, isLoading])
 

@@ -233,6 +233,12 @@ export default function PlaylistDetailPage() {
 function PlaylistHeader() {
   const { user } = useAuthStore()
   const logout = useAuthStore(state => state.logout)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+  const handleLogout = () => {
+    setIsLoggingOut(true)
+    logout()
+  }
 
   return (
     <header className="bg-white border-b border-gray-200">
@@ -265,10 +271,18 @@ function PlaylistHeader() {
               ¡Hola, {user?.name}!
             </span>
             <button 
-              onClick={() => logout()}
-              className="btn-secondary"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              Cerrar Sesión
+              {isLoggingOut ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-500"></div>
+                  Cerrando...
+                </>
+              ) : (
+                'Cerrar Sesión'
+              )}
             </button>
           </div>
         </div>

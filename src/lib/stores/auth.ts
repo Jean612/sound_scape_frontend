@@ -41,6 +41,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       isAuthenticated: false,
       isLoading: false,
     })
+    
+    // Redirigir al landing después de logout
+    if (typeof window !== 'undefined') {
+      window.location.href = '/'
+    }
   },
 
   setUser: (user: User | null) => {

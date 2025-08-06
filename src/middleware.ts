@@ -13,20 +13,23 @@ export function middleware(request: NextRequest) {
 
   // Si estás en una ruta protegida sin token, redirige a login
   if (protectedRoutes.some(route => pathname.startsWith(route))) {
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url))
+    if (!token || token.trim() === '') {
+      const response = NextResponse.redirect(new URL('/login', request.url))
+      // Limpiar cookie si está vacía o inválida
+      response.cookies.delete('auth_token')
+      return response
     }
   }
 
   // Si estás en login/register con token válido, redirige a dashboard
   if (authOnlyRoutes.some(route => pathname.startsWith(route))) {
-    if (token) {
+    if (token && token.trim() !== '') {
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
   }
 
   // Si estás en la raíz con token válido, redirige a dashboard
-  if (pathname === '/' && token) {
+  if (pathname === '/' && token && token.trim() !== '') {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
