@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { User, authService } from '../api'
+import { cookieUtils } from '../cookies'
 
 interface AuthState {
   user: User | null
@@ -67,8 +68,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const user = authService.getCurrentUser()
       
       // Si hay token pero no cookie, establecer cookie
-      if (token && user && !document.cookie.includes('auth_token=')) {
-        document.cookie = `auth_token=${token}; path=/; max-age=${7 * 24 * 60 * 60}` // 7 días
+      if (token && user && !cookieUtils.exists('auth_token')) {
+        cookieUtils.set('auth_token', token, 7) // 7 días
       }
       
       set({
@@ -82,9 +83,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isAuthenticated: false,
       })
       // Limpiar cookie también
-      if (typeof document !== 'undefined') {
-        document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
-      }
+      cookieUtils.remove('auth_token')
     }
   },
 }))

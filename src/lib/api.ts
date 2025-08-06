@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { cookieUtils } from './cookies'
 
 // Configuración base del cliente API
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/v1'
@@ -115,7 +116,7 @@ export const authService = {
       localStorage.setItem('user', JSON.stringify(response.data.user))
       
       // Establecer cookie para el middleware
-      document.cookie = `auth_token=${response.data.token}; path=/; max-age=${7 * 24 * 60 * 60}` // 7 días
+      cookieUtils.set('auth_token', response.data.token, 7) // 7 días
     }
     
     return response.data
@@ -162,7 +163,7 @@ export const authService = {
     localStorage.removeItem('user')
     
     // Limpiar cookie
-    document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
+    cookieUtils.remove('auth_token')
   },
 
   getCurrentUser(): User | null {
