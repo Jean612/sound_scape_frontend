@@ -12,7 +12,7 @@ interface UseFormReturn<T> {
   values: T
   errors: Partial<Record<keyof T, string>>
   isLoading: boolean
-  setValue: (name: keyof T, value: any) => void
+  setValue: (name: keyof T, value: T[keyof T]) => void
   setError: (name: keyof T, error: string) => void
   clearError: (name: keyof T) => void
   clearErrors: () => void
@@ -21,7 +21,7 @@ interface UseFormReturn<T> {
   reset: () => void
 }
 
-export function useForm<T extends Record<string, any>>({
+export function useForm<T extends Record<string, unknown>>({
   initialValues,
   validate,
   onSubmit,
@@ -30,7 +30,7 @@ export function useForm<T extends Record<string, any>>({
   const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({})
   const [isLoading, setIsLoading] = useState(false)
 
-  const setValue = useCallback((name: keyof T, value: any) => {
+  const setValue = useCallback((name: keyof T, value: T[keyof T]) => {
     setValues(prev => ({ ...prev, [name]: value }))
     // Clear error when user starts typing
     if (errors[name]) {

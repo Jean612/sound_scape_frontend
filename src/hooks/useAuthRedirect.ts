@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/lib/stores/auth'
 
 export function useAuthRedirect() {
-  const router = useRouter()
+  // const router = useRouter() // Not currently used but may be needed for future navigation
   const { isAuthenticated, user, isLoading } = useAuthStore()
 
   useEffect(() => {

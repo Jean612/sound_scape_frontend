@@ -15,7 +15,7 @@ interface AuthState {
   checkAuth: () => void
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
   isLoading: false,
@@ -76,7 +76,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         user,
         isAuthenticated: !!token && !!user,
       })
-    } catch (error) {
+    } catch {
       // Si hay error, limpia el estado
       set({
         user: null,

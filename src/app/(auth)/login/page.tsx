@@ -32,7 +32,7 @@ const validateLogin = (values: LoginForm) => {
 }
 
 export default function LoginPage() {
-  const router = useRouter()
+  // const router = useRouter() // Commented out as not currently used
   const login = useAuthStore(state => state.login)
   const [submitError, setSubmitError] = useState('')
 

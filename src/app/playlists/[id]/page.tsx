@@ -51,7 +51,7 @@ export default function PlaylistDetailPage() {
           songs_count: (prev.songs_count || 1) - 1
         }
       })
-    } catch (error: unknown) {
+    } catch {
       setError('Error al eliminar la canción')
     }
   }

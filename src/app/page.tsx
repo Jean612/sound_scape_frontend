@@ -6,7 +6,7 @@ import { useAuthRedirect } from '@/hooks/useAuthRedirect'
 import { Music, Sparkles, Users, Zap, Play, ArrowRight, Star } from 'lucide-react'
 
 export default function Home() {
-  const { isAuthenticated, user, isLoading, shouldRedirect } = useAuthRedirect()
+  const { isLoading, shouldRedirect } = useAuthRedirect()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -180,7 +180,15 @@ function FeatureCard({ icon, title, description }: {
   )
 }
 
-function DashboardHome({ user }: { user: any }) {
+interface User {
+  id: string
+  name: string
+  email: string
+}
+
+// This component is not used but keeping for potential future use
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function DashboardHome({ user }: { user: User }) {
   const logout = useAuthStore(state => state.logout)
   
   const handleLogout = () => {
