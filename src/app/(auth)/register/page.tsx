@@ -145,16 +145,18 @@ export default function RegisterPage() {
         await authService.register(userData)
         // Redirigir a verificación OTP
         router.push(`/verify-otp?email=${encodeURIComponent(values.email)}`)
-      } catch (error: any) {
-        if (error.response?.data?.errors) {
-          // Errores de validación del servidor
-          const serverErrors = error.response.data.errors
-          if (Array.isArray(serverErrors)) {
-            setSubmitError(serverErrors.join(', '))
-          } else {
-            setSubmitError(serverErrors)
+      } catch (error: unknown) {
+        if (error && typeof error === 'object' && 'response' in error) {
+          const axiosError = error as { response: { data: { errors: unknown } } }
+          if (axiosError.response?.data?.errors) {
+            const serverErrors = axiosError.response.data.errors
+            if (Array.isArray(serverErrors)) {
+              setSubmitError(serverErrors.join(', '))
+            } else {
+              setSubmitError(String(serverErrors))
+            }
           }
-        } else if (error.message) {
+        } else if (error instanceof Error) {
           setSubmitError(error.message)
         } else {
           setSubmitError('Error inesperado. Por favor, intenta de nuevo.')

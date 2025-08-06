@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { ArrowLeft, Music, Play, MoreVertical, Trash2, Clock, User, Calendar } from 'lucide-react'
 import { playlistService, type Playlist, type PlaylistSong } from '@/lib/api'
 import { useAuthStore } from '@/lib/stores/auth'
@@ -9,7 +9,6 @@ import Link from 'next/link'
 
 export default function PlaylistDetailPage() {
   const { id } = useParams()
-  const router = useRouter()
   const { user } = useAuthStore()
   const [playlist, setPlaylist] = useState<Playlist | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -26,7 +25,7 @@ export default function PlaylistDetailPage() {
       setError('')
       const data = await playlistService.getById(playlistId)
       setPlaylist(data)
-    } catch (error: any) {
+    } catch (error: unknown) {
       setError('Error al cargar la playlist')
       console.error('Error loading playlist:', error)
     } finally {
@@ -52,15 +51,9 @@ export default function PlaylistDetailPage() {
           songs_count: (prev.songs_count || 1) - 1
         }
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       setError('Error al eliminar la canción')
     }
-  }
-
-  const formatDuration = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 
   const formatDate = (dateString: string) => {

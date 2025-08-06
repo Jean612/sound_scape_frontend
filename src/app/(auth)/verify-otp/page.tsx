@@ -84,8 +84,9 @@ export default function VerifyOtpPage() {
       setTimeout(() => {
         router.push('/login')
       }, 2000)
-    } catch (error: any) {
-      setError(error.message || 'Error al verificar el código')
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Error al verificar el código'
+      setError(errorMessage)
       setOtpCode(['', '', '', '', '', '']) // Limpiar código
       inputRefs.current[0]?.focus()
     } finally {
@@ -104,8 +105,9 @@ export default function VerifyOtpPage() {
       setTimeLeft(15 * 60) // Reiniciar timer
       setOtpCode(['', '', '', '', '', '']) // Limpiar código
       inputRefs.current[0]?.focus()
-    } catch (error: any) {
-      setError(error.message || 'Error al reenviar el código')
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Error al reenviar el código'
+      setError(errorMessage)
     } finally {
       setIsResending(false)
     }
@@ -187,7 +189,9 @@ export default function VerifyOtpPage() {
           {otpCode.map((digit, index) => (
             <input
               key={index}
-              ref={(el) => inputRefs.current[index] = el}
+              ref={(el) => {
+                inputRefs.current[index] = el
+              }}
               type="text"
               inputMode="numeric"
               pattern="[0-9]"

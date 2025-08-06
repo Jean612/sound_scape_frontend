@@ -24,7 +24,7 @@ export default function DashboardPage() {
       setError('')
       const data = await playlistService.getAll()
       setPlaylists(data)
-    } catch (error: any) {
+    } catch (error: unknown) {
       setError('Error al cargar las playlists')
       console.error('Error loading playlists:', error)
     } finally {
@@ -38,8 +38,9 @@ export default function DashboardPage() {
       const newPlaylist = await playlistService.create(playlistData)
       setPlaylists(prev => [newPlaylist, ...prev])
       setShowCreateModal(false)
-    } catch (error: any) {
-      setError(error.message || 'Error al crear la playlist')
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Error al crear la playlist'
+      setError(errorMessage)
     } finally {
       setIsCreating(false)
     }
@@ -53,8 +54,9 @@ export default function DashboardPage() {
     try {
       await playlistService.delete(playlistId)
       setPlaylists(prev => prev.filter(p => p.id !== playlistId))
-    } catch (error: any) {
-      setError(error.message || 'Error al eliminar la playlist')
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Error al eliminar la playlist'
+      setError(errorMessage)
     }
   }
 
@@ -133,7 +135,7 @@ export default function DashboardPage() {
   )
 }
 
-function DashboardHeader({ user }: { user: any }) {
+function DashboardHeader({ user }: { user: { name: string } | null }) {
   const logout = useAuthStore(state => state.logout)
 
   const handleLogout = () => {
