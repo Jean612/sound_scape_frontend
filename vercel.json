@@ -6,7 +6,7 @@
     }
   ],
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://soundscape-api.onrender.com/api/v1"
+    "NEXT_PUBLIC_API_URL": "https://soundscape-api-fjue.onrender.com/api/v1"
   },
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
