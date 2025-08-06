@@ -1,34 +1,23 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useAuthStore } from '@/lib/stores/auth'
+import { useAuthRedirect } from '@/hooks/useAuthRedirect'
 import { Music, Sparkles, Users, Zap, Play, ArrowRight, Star } from 'lucide-react'
 
 export default function Home() {
-  const { isAuthenticated, user, isLoading } = useAuthStore()
+  const { isAuthenticated, user, isLoading, shouldRedirect } = useAuthRedirect()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Mostrar loading hasta que el componente esté montado y la auth esté cargada
-  if (!mounted || isLoading) {
+  // Mostrar loading hasta que el componente esté montado
+  if (!mounted || isLoading || shouldRedirect) {
     return <div className="flex items-center justify-center min-h-screen">
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
     </div>
-  }
-
-  if (isAuthenticated && user) {
-    // Redirigir al dashboard usando window.location para forzar recarga
-    if (typeof window !== 'undefined') {
-      window.location.href = '/dashboard'
-      return <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
-      </div>
-    }
-    return <DashboardHome user={user} />
   }
 
   return <LandingPage />

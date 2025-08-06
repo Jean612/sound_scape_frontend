@@ -7,17 +7,24 @@ import { playlistService, type Playlist } from '@/lib/api'
 import Link from 'next/link'
 
 export default function DashboardPage() {
-  const { user } = useAuthStore()
+  const { user, isAuthenticated, checkAuth } = useAuthStore()
   const [playlists, setPlaylists] = useState<Playlist[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [error, setError] = useState('')
 
+  // Verificar autenticación al cargar
+  useEffect(() => {
+    checkAuth()
+  }, [checkAuth])
+
   // Cargar playlists del usuario
   useEffect(() => {
-    loadPlaylists()
-  }, [])
+    if (isAuthenticated && user) {
+      loadPlaylists()
+    }
+  }, [isAuthenticated, user])
 
   const loadPlaylists = async () => {
     try {
