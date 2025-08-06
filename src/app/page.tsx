@@ -1,103 +1,252 @@
-import Image from "next/image";
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useAuthStore } from '@/lib/stores/auth'
+import { Music, Sparkles, Users, Zap, Play, ArrowRight, Star } from 'lucide-react'
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { isAuthenticated, user } = useAuthStore()
+  const [mounted, setMounted] = useState(false)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+    </div>
+  }
+
+  if (isAuthenticated && user) {
+    return <DashboardHome user={user} />
+  }
+
+  return <LandingPage />
+}
+
+function LandingPage() {
+  return (
+    <div className="min-h-screen gradient-bg">
+      {/* Header */}
+      <header className="container mx-auto px-4 py-6">
+        <nav className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+              <Music className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold gradient-text">SoundScape</span>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            <Link 
+              href="/login" 
+              className="text-slate-600 hover:text-primary-600 font-medium transition-colors"
+            >
+              Iniciar Sesión
+            </Link>
+            <Link href="/register" className="btn-primary">
+              Registrarse
+            </Link>
+          </div>
+        </nav>
+      </header>
+
+      {/* Hero Section */}
+      <main className="container mx-auto px-4 py-20">
+        <div className="text-center max-w-4xl mx-auto animate-fade-in">
+          <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+            Tu música, <span className="gradient-text">inteligente</span>
+          </h1>
+          
+          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Descubre nuevas canciones, crea playlists personalizadas y organiza tu música 
+            con la ayuda de inteligencia artificial.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+            <Link href="/register" className="btn-primary text-lg px-8 py-4 flex items-center gap-2">
+              <Play className="w-5 h-5" />
+              Comenzar Gratis
+            </Link>
+            <Link href="#features" className="btn-secondary text-lg px-8 py-4 flex items-center gap-2">
+              Conocer más
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Hero Image Placeholder */}
+          <div className="relative mx-auto max-w-4xl">
+            <div className="card p-8 glass-effect">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-3">
+                  <div className="h-4 bg-primary-100 rounded animate-pulse"></div>
+                  <div className="h-4 bg-primary-200 rounded animate-pulse"></div>
+                  <div className="h-4 bg-primary-100 rounded animate-pulse"></div>
+                </div>
+                <div className="space-y-3">
+                  <div className="h-4 bg-primary-200 rounded animate-pulse"></div>
+                  <div className="h-4 bg-primary-100 rounded animate-pulse"></div>
+                  <div className="h-4 bg-primary-300 rounded animate-pulse"></div>
+                </div>
+                <div className="space-y-3">
+                  <div className="h-4 bg-primary-100 rounded animate-pulse"></div>
+                  <div className="h-4 bg-primary-200 rounded animate-pulse"></div>
+                  <div className="h-4 bg-primary-100 rounded animate-pulse"></div>
+                </div>
+              </div>
+              <div className="text-center mt-6 text-primary-600 font-medium">
+                <Sparkles className="w-5 h-5 inline mr-2" />
+                Vista previa de la aplicación
+              </div>
+            </div>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Features */}
+      <section id="features" className="py-20 bg-white/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Todo lo que necesitas para tu <span className="gradient-text">música</span>
+            </h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+              Funciones inteligentes diseñadas para mejorar tu experiencia musical
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={<Sparkles className="w-6 h-6" />}
+              title="Búsqueda Inteligente"
+              description="Encuentra canciones perfectas usando descripciones naturales. Di 'algo relajante para estudiar' y nosotros nos encargamos."
+            />
+            
+            <FeatureCard
+              icon={<Users className="w-6 h-6" />}
+              title="Playlists Personalizadas"
+              description="Crea y organiza tus listas de reproducción con facilidad. Agrega canciones directamente desde los resultados de búsqueda AI."
+            />
+            
+            <FeatureCard
+              icon={<Zap className="w-6 h-6" />}
+              title="Experiencia Rápida"
+              description="Interfaz moderna y responsive que funciona perfectamente en todos tus dispositivos. Diseñada para la velocidad."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20">
+        <div className="container mx-auto px-4 text-center">
+          <div className="card max-w-2xl mx-auto p-12">
+            <h2 className="text-3xl font-bold mb-4">
+              ¿Listo para comenzar?
+            </h2>
+            <p className="text-slate-600 mb-8 text-lg">
+              Únete a miles de usuarios que ya disfrutan de una experiencia musical inteligente
+            </p>
+            <Link href="/register" className="btn-primary text-lg px-8 py-4 inline-flex items-center gap-2">
+              <Star className="w-5 h-5" />
+              Crear cuenta gratis
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 border-t border-slate-200">
+        <div className="container mx-auto px-4 text-center text-slate-500">
+          <p>&copy; 2024 SoundScape. Hecho con ❤️ para los amantes de la música.</p>
+        </div>
       </footer>
     </div>
-  );
+  )
+}
+
+function FeatureCard({ icon, title, description }: {
+  icon: React.ReactNode
+  title: string
+  description: string
+}) {
+  return (
+    <div className="card p-6 text-center hover:scale-105 transition-transform duration-200">
+      <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4 text-primary-600">
+        {icon}
+      </div>
+      <h3 className="text-xl font-semibold mb-3">{title}</h3>
+      <p className="text-slate-600 leading-relaxed">{description}</p>
+    </div>
+  )
+}
+
+function DashboardHome({ user }: { user: any }) {
+  const logout = useAuthStore(state => state.logout)
+  
+  const handleLogout = () => {
+    logout()
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+                <Music className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-bold gradient-text">SoundScape</span>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-slate-600">¡Hola, {user.name}!</span>
+              <button 
+                onClick={handleLogout}
+                className="btn-secondary"
+              >
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-fade-in">
+          <h1 className="text-3xl font-bold mb-2">
+            ¡Hola, {user.name}! 👋
+          </h1>
+          <p className="text-slate-600 mb-8">
+            Bienvenido de vuelta a tu experiencia musical personalizada
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Link href="/playlists" className="card p-6 hover:scale-105 transition-transform">
+              <Music className="w-8 h-8 text-primary-600 mb-4" />
+              <h3 className="font-semibold text-lg mb-2">Mis Playlists</h3>
+              <p className="text-slate-600">Gestiona tus listas de reproducción</p>
+            </Link>
+            
+            <Link href="/search" className="card p-6 hover:scale-105 transition-transform">
+              <Sparkles className="w-8 h-8 text-primary-600 mb-4" />
+              <h3 className="font-semibold text-lg mb-2">Búsqueda AI</h3>
+              <p className="text-slate-600">Encuentra música con inteligencia artificial</p>
+            </Link>
+            
+            <div className="card p-6">
+              <Users className="w-8 h-8 text-primary-600 mb-4" />
+              <h3 className="font-semibold text-lg mb-2">Próximamente</h3>
+              <p className="text-slate-600">Más funciones geniales en camino</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }

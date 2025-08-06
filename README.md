@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎵 SoundScape Frontend
 
-## Getting Started
+Una aplicación web moderna y elegante para gestionar tu música con inteligencia artificial. Construida con Next.js 14, TypeScript y Tailwind CSS.
 
-First, run the development server:
+## ✨ Características
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- 🤖 **Búsqueda Inteligente**: Encuentra canciones usando descripciones naturales
+- 📱 **Responsive Design**: Diseño moderno que funciona en todos los dispositivos
+- 🎨 **Tema Claro**: Interfaz limpia con verde pastel y blancos
+- ⚡ **Rendimiento Optimizado**: Carga rápida y navegación fluida
+- 🔐 **Autenticación Segura**: Sistema de login con JWT tokens
+- 🎵 **Gestión de Playlists**: Crea y organiza tus listas de reproducción
+
+## 🛠️ Stack Tecnológico
+
+- **Framework**: Next.js 14 (App Router)
+- **Lenguaje**: TypeScript
+- **Styling**: Tailwind CSS
+- **Estado**: Zustand
+- **Datos**: TanStack Query (React Query)
+- **HTTP Client**: Axios
+- **Iconos**: Lucide React
+
+## 🚀 Instalación y Desarrollo
+
+1. **Instalar dependencias**:
+   ```bash
+   npm install
+   ```
+
+2. **Configurar variables de entorno**:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+3. **Iniciar servidor de desarrollo**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Abrir en el navegador**:
+   ```
+   http://localhost:3001
+   ```
+
+**Nota**: La aplicación está configurada para ejecutarse siempre en el puerto **3001** para evitar conflictos con la API Rails que corre en el puerto 3000.
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── app/                    # App Router pages
+│   ├── (auth)/            # Rutas de autenticación
+│   ├── dashboard/         # Dashboard principal
+│   ├── playlists/         # Gestión de playlists
+│   ├── search/           # Búsqueda AI
+│   └── layout.tsx        # Layout principal
+├── components/           # Componentes reutilizables
+│   ├── ui/              # Componentes base
+│   ├── forms/           # Formularios
+│   └── providers.tsx    # Providers globales
+├── lib/                 # Configuración y utilidades
+│   ├── api.ts          # Cliente API
+│   ├── stores/         # Stores Zustand
+│   └── utils.ts        # Utilidades
+└── types/              # Tipos TypeScript
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎨 Tema y Diseño
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Paleta de Colores
+- **Verde Principal**: `#22c55e` (Emerald 500)
+- **Verde Pastel**: `#86efac` (Emerald 300)
+- **Verde Claro**: `#f0fdf4` (Emerald 50)
+- **Texto**: `#0f172a` (Slate 900)
+- **Fondo**: `#ffffff` (Blanco)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Filosofía de Diseño
+- **Minimalista**: Interfaz limpia sin distracciones
+- **Accesible**: Contrastes apropiados y navegación por teclado
+- **Moderno**: Elementos glassmorphism y animaciones suaves
+- **Responsive**: Funciona perfectamente en móvil y desktop
 
-## Learn More
+## 🔗 API Integration
 
-To learn more about Next.js, take a look at the following resources:
+La aplicación se conecta con la API de Rails en:
+- **Desarrollo**: `http://localhost:3000/api/v1`
+- **Producción**: Configurar `NEXT_PUBLIC_API_URL`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Endpoints Utilizados
+- `POST /auth/login` - Autenticación
+- `POST /auth/register` - Registro
+- `GET /playlists` - Obtener playlists
+- `POST /ai_search` - Búsqueda inteligente
+- `POST /playlists/:id/add_ai_song` - Agregar canción AI
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📝 Scripts Disponibles
 
-## Deploy on Vercel
+```bash
+# Desarrollo (puerto 3001)
+npm run dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Build para producción
+npm run build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Iniciar aplicación en producción (puerto 3001)
+npm start
+
+# Linting
+npm run lint
+```
+
+## 🤝 Contribuir
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
+
+---
+
+Hecho con ❤️ para los amantes de la música
