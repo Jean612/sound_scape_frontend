@@ -1,6 +1,6 @@
 'use client'
 
-// import { useRouter } from 'next/navigation' // Will be used after OTP verification
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useState } from 'react'
 import { UserPlus, Loader2, AlertCircle } from 'lucide-react'
