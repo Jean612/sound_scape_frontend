@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation' // Will be used after OTP verification
 import Link from 'next/link'
 import { useState } from 'react'
 import { UserPlus, Loader2, AlertCircle } from 'lucide-react'
@@ -9,7 +9,7 @@ import { FormSelect } from '@/components/forms/FormSelect'
 import { useForm } from '@/hooks/useForm'
 import { authService } from '@/lib/api'
 
-interface RegisterForm {
+interface RegisterForm extends Record<string, unknown> {
   email: string
   password: string
   confirmPassword: string

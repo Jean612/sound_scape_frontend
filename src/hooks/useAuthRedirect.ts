@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation' // Not currently used
 import { useAuthStore } from '@/lib/stores/auth'
 
 export function useAuthRedirect() {

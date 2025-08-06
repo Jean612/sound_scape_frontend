@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation' // Not currently used
 import Link from 'next/link'
 import { useState } from 'react'
 import { LogIn, Loader2, AlertCircle } from 'lucide-react'
@@ -8,7 +8,7 @@ import { FormInput } from '@/components/forms/FormInput'
 import { useForm } from '@/hooks/useForm'
 import { useAuthStore } from '@/lib/stores/auth'
 
-interface LoginForm {
+interface LoginForm extends Record<string, unknown> {
   email: string
   password: string
 }
